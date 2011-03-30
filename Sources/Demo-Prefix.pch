@@ -1,0 +1,15 @@
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+	#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+	#import <UIKit/UIKit.h>
+	#import <Foundation/Foundation.h>
+#endif
+
+#if !(NS_BLOCKS_AVAILABLE)
+	#error "This project requires support for blocks."
+#endif
