@@ -48,7 +48,7 @@
 
 @implementation AppRecord
 
-@synthesize appName, artist, imageURLString, appURLString, appIcon;
+@synthesize appName, artist, imageURLString, appURLString;
 
 - (void)dealloc
 {
@@ -56,7 +56,6 @@
 	[artist release];
 	[imageURLString release];
 	[appURLString release];
-	[appIcon release];
 	[super dealloc];
 }
 

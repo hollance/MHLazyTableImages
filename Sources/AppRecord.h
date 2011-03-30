@@ -52,6 +52,5 @@
 @property (nonatomic, retain) NSString* artist;
 @property (nonatomic, retain) NSString* imageURLString;
 @property (nonatomic, retain) NSString* appURLString;
-@property (nonatomic, retain) UIImage* appIcon;
 
 @end
