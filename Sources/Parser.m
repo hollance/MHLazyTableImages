@@ -44,7 +44,7 @@
   
  */
 
-#import "ParseOperation.h"
+#import "Parser.h"
 #import "AppRecord.h"
 
 // string contants found in the RSS feed
@@ -54,7 +54,7 @@ static NSString* const kImageStr  = @"im:image";
 static NSString* const kArtistStr = @"im:artist";
 static NSString* const kEntryStr  = @"entry";
 
-@interface ParseOperation ()
+@interface Parser ()
 @property (nonatomic, retain) NSData* dataToParse;
 @property (nonatomic, retain) NSMutableArray* workingArray;
 @property (nonatomic, retain) AppRecord* workingEntry;
@@ -63,7 +63,7 @@ static NSString* const kEntryStr  = @"entry";
 @property (nonatomic, assign) BOOL storingCharacterData;
 @end
 
-@implementation ParseOperation
+@implementation Parser
 
 @synthesize dataToParse, workingArray, workingEntry, workingPropertyString, 
             elementsToParse, storingCharacterData;
@@ -90,7 +90,7 @@ static NSString* const kEntryStr  = @"entry";
 	[super dealloc];
 }
 
-- (void)setCompletionBlock:(ParseOperationCompletionBlock)block
+- (void)setCompletionBlock:(ParserCompletionBlock)block
 {
 	if (completionBlock != block)
 	{
@@ -99,7 +99,7 @@ static NSString* const kEntryStr  = @"entry";
 	}
 }
 
-- (void)setFailureBlock:(ParseOperationFailureBlock)block
+- (void)setFailureBlock:(ParserFailureBlock)block
 {
 	if (failureBlock != block)
 	{
@@ -108,7 +108,7 @@ static NSString* const kEntryStr  = @"entry";
 	}
 }
 
-- (void)main
+- (void)parse
 {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
@@ -119,7 +119,7 @@ static NSString* const kEntryStr  = @"entry";
 	[parser setDelegate:self];
 	[parser parse];
 
-	if (![self isCancelled] && completionBlock != nil)
+	if (completionBlock != nil)
 	{
 		dispatch_sync(dispatch_get_main_queue(), ^
 		{

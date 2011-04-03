@@ -46,18 +46,18 @@
 
 @class AppRecord;
 
-typedef void (^ParseOperationCompletionBlock)(NSArray* appList);
-typedef void (^ParseOperationFailureBlock)(NSError* error);
+typedef void (^ParserCompletionBlock)(NSArray* appList);
+typedef void (^ParserFailureBlock)(NSError* error);
 
-@interface ParseOperation : NSOperation <NSXMLParserDelegate>
+@interface Parser : NSObject <NSXMLParserDelegate>
 {
-	ParseOperationCompletionBlock completionBlock;
-	ParseOperationFailureBlock failureBlock;
+	ParserCompletionBlock completionBlock;
+	ParserFailureBlock failureBlock;
 }
 
 - (id)initWithData:(NSData*)data;
-
-- (void)setCompletionBlock:(ParseOperationCompletionBlock)block;
-- (void)setFailureBlock:(ParseOperationFailureBlock)block;
+- (void)setCompletionBlock:(ParserCompletionBlock)block;
+- (void)setFailureBlock:(ParserFailureBlock)block;
+- (void)parse;
 
 @end

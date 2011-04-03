@@ -2,14 +2,14 @@
 #import "DemoAppDelegate.h"
 #import "RootViewController.h"
 #import "ASIHTTPRequest.h"
-#import "ParseOperation.h"
+#import "Parser.h"
 #import "MHImageCache.h"
 
 static NSString* const TopPaidAppsFeed = @"http://phobos.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=75/xml";
 
 @implementation DemoAppDelegate
 
-@synthesize window, navigationController, rootViewController, queue;
+@synthesize window, navigationController, rootViewController;
 
 - (void)handleError:(NSError*)error
 {
@@ -47,23 +47,24 @@ static NSString* const TopPaidAppsFeed = @"http://phobos.apple.com/WebObjects/MZ
 			return;
 		}
 
-		blockSelf.queue = [[NSOperationQueue alloc] init];
-		ParseOperation* parser = [[ParseOperation alloc] initWithData:[request responseData]];
+		Parser* parser = [[Parser alloc] initWithData:[request responseData]];
 
 		[parser setCompletionBlock:^(NSArray* appList)
 		{
 			blockSelf.rootViewController.entries = appList;
 			[blockSelf.rootViewController.tableView reloadData];    
-			blockSelf.queue = nil;
 		}];
 
 		[parser setFailureBlock:^(NSError* error)
 		{
 			[blockSelf handleError:error];
-			blockSelf.queue = nil;
 		}];
 
-		[blockSelf.queue addOperation:parser];
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+		{
+			[parser parse];
+		});
+
 		[parser release];
 	}];
 
