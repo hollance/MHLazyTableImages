@@ -170,7 +170,7 @@
     if (image.size.width != kAppIconHeight && image.size.height != kAppIconHeight)
 	{
         CGSize itemSize = CGSizeMake(kAppIconHeight, kAppIconHeight);
-		UIGraphicsBeginImageContext(itemSize);
+		UIGraphicsBeginImageContextWithOptions(itemSize, YES, 0);
 		CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
 		[image drawInRect:imageRect];
 		UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
