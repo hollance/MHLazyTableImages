@@ -132,13 +132,13 @@
 
 #pragma mark - MHLazyTableImagesDelegate
 
-- (NSURL *)lazyImageURLForIndexPath:(NSIndexPath *)indexPath
+- (NSURL *)lazyTableImages:(MHLazyTableImages *)lazyTableImages lazyImageURLForIndexPath:(NSIndexPath *)indexPath
 {
 	AppRecord *appRecord = _entries[indexPath.row];
 	return [NSURL URLWithString:appRecord.imageURLString];
 }
 
-- (UIImage *)postProcessLazyImage:(UIImage *)image forIndexPath:(NSIndexPath *)indexPath
+- (UIImage *)lazyTableImages:(MHLazyTableImages *)lazyTableImages postProcessLazyImage:(UIImage *)image forIndexPath:(NSIndexPath *)indexPath
 {
     if (image.size.width != AppIconHeight && image.size.height != AppIconHeight)
  		return [self scaleImage:image toSize:CGSizeMake(AppIconHeight, AppIconHeight)];
