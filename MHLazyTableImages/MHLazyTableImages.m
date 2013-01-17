@@ -25,7 +25,7 @@
 
 @implementation UITableViewCell (MHLazyTableImages)
 
-- (void)didLoadLazyImage:(UIImage *)theImage
+- (void)lazyTableImages:(MHLazyTableImages*)lazyTableImages didLoadLazyImage:(UIImage *)theImage
 {
 	if (theImage != nil)
 		self.imageView.image = theImage;
@@ -59,7 +59,7 @@
 
 			if (image != nil && [self.delegate respondsToSelector:@selector(postProcessLazyImage:forIndexPath:)])
 			{
-				UIImage *newImage = [self.delegate postProcessLazyImage:image forIndexPath:indexPath];
+				UIImage *newImage = [self.delegate lazyTableImages:self postProcessLazyImage:image forIndexPath:indexPath];
 				if (newImage != image)
 				{
 					[[MHImageCache sharedInstance] cacheImage:newImage withURL:url];
@@ -68,24 +68,24 @@
 			}
 
 			id <MHLazyTableImageCell> cell = [self.tableView cellForRowAtIndexPath:indexPath];
-			[cell didLoadLazyImage:image];
+			[cell lazyTableImages:self didLoadLazyImage:image];
 		}
 	}];
 }
 
 - (void)addLazyImageForCell:(id <MHLazyTableImageCell>)cell withIndexPath:(NSIndexPath *)indexPath
 {
-	NSURL *url = [self.delegate lazyImageURLForIndexPath:indexPath];
+	NSURL *url = [self.delegate lazyTableImages:self lazyImageURLForIndexPath:indexPath];
 	if (url != nil)
 	{
 		UIImage *image = [self imageForURL:url];
 		if (image != nil)
 		{
-			[cell didLoadLazyImage:image];
+			[cell lazyTableImages:self didLoadLazyImage:image];
 		}
 		else
 		{
-			[cell didLoadLazyImage:self.placeholderImage];
+			[cell lazyTableImages:self didLoadLazyImage:self.placeholderImage];
 
 			// Defer new downloads until scrolling ends
 			if (self.tableView.dragging == NO && self.tableView.decelerating == NO)
@@ -99,7 +99,7 @@
 	NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
 	for (NSIndexPath *indexPath in visiblePaths)
 	{
-		NSURL *url = [self.delegate lazyImageURLForIndexPath:indexPath];
+		NSURL *url = [self.delegate lazyTableImages:self lazyImageURLForIndexPath:indexPath];
 		if (url != nil)
 		{
 			UIImage *image = [self imageForURL:url];

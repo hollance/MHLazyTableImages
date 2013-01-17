@@ -24,12 +24,14 @@
  * UITableViewCell subclasses should implement this protocol in order to be
  * notified when an image has been lazily loaded.
  */
+
+@class MHLazyTableImages;
 @protocol MHLazyTableImageCell <NSObject>
 
 /*
  * Invoked when the image has finished loading or failed to load.
  */
-- (void)didLoadLazyImage:(UIImage *)image;
+- (void)lazyTableImages:(MHLazyTableImages*)lazyTableImages didLoadLazyImage:(UIImage *)image;
 
 @end
 
@@ -46,7 +48,7 @@
 @protocol MHLazyTableImagesDelegate <NSObject>
 
 /* Returns the URL for the row at the specified index-path. */
-- (NSURL *)lazyImageURLForIndexPath:(NSIndexPath *)indexPath;
+- (NSURL *)lazyTableImages:(MHLazyTableImages*)lazyTableImages lazyImageURLForIndexPath:(NSIndexPath *)indexPath;
 
 @optional
 
@@ -55,7 +57,7 @@
  * to the desired dimensions. This will insert the altered image into the cache
  * and remove the original.
  */
-- (UIImage *)postProcessLazyImage:(UIImage*)image forIndexPath:(NSIndexPath *)indexPath;
+- (UIImage *)lazyTableImages:(MHLazyTableImages*)lazyTableImages postProcessLazyImage:(UIImage*)image forIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
