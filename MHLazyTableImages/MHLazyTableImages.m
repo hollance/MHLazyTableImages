@@ -57,7 +57,7 @@
 			// the cell has not been hooked up to an index-path yet, and so the
 			// image won't be displayed. Just so you know.
 
-			if (image != nil && [self.delegate respondsToSelector:@selector(postProcessLazyImage:forIndexPath:)])
+			if (image != nil && [self.delegate respondsToSelector:@selector(lazyTableImages:postProcessLazyImage:forIndexPath:)])
 			{
 				UIImage *newImage = [self.delegate lazyTableImages:self postProcessLazyImage:image forIndexPath:indexPath];
 				if (newImage != image)
